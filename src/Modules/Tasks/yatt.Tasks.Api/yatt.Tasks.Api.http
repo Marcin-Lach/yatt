@@ -1,6 +1,45 @@
-@yatt.Tasks.Api_HostAddress = http://localhost:5154
+@yattTasksApi_HostAddress = http://localhost:5154/api/tasks
 
-GET {{yatt.Tasks.Api_HostAddress}}/weatherforecast/
+GET {{yattTasksApi_HostAddress}}
 Accept: application/json
 
 ###
+POST {{yattTasksApi_HostAddress}}
+Content-Type: application/json
+
+{
+  "id": "111163BE-1111-4579-89E1-A057631B0A9D",
+  "title": "task 1",
+  "details": "some dets"
+}
+
+###
+GET {{yattTasksApi_HostAddress}}/111163BE-1111-4579-89E1-A057631B0A9D
+Accept: application/json
+
+###
+POST {{yattTasksApi_HostAddress}}
+Content-Type: application/json
+
+{
+  "id": "333363BE-3333-4579-89E1-A057631B0A93",
+  "title": "task 2"
+}
+
+###
+GET {{yattTasksApi_HostAddress}}/333363BE-3333-4579-89E1-A057631B0A93
+Accept: application/json
+
+###
+PUT {{yattTasksApi_HostAddress}}/333363BE-3333-4579-89E1-A057631B0A93
+Content-Type: application/json
+
+{
+  "id": "333363BE-3333-4579-89E1-A057631B0A93",
+  "title": "task 2 ver 2",
+  "details": "some details"
+}
+
+###
+DELETE {{yattTasksApi_HostAddress}}/333363BE-3333-4579-89E1-A057631B0A93
+Accept: application/json

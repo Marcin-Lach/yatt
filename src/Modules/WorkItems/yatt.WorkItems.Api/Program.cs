@@ -23,7 +23,7 @@ var workItems = new Dictionary<Guid, WorkItem>();
 // TODO: improve OpenApi generated for those endpoints (use TypedResults and fluent api methods to enhance OpenApi spec)
 // TODO: maybe use Vertical Slicing to manage the features
 app.MapGet("/api/workitems", 
-    () => Results.Ok(workItems));
+    () => Results.Ok(workItems.Select(x => x.Value).ToList()));
 
 app.MapGet("/api/workitems/{id:guid}", 
     ([FromRoute] Guid id)

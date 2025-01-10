@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\yatt.Tasks.Domain\yatt.Tasks.Domain.csproj" />
+    <ProjectReference Include="..\yatt.WorkItems.Domain\yatt.WorkItems.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,5 +4,5 @@ A simple task tracker playground.
 
 ## Features
 
-- CRUD API for Tasks resource
-- toggle a task as completed
+- CRUD API for WorkItems resource
+- toggle a WorkItem as completed

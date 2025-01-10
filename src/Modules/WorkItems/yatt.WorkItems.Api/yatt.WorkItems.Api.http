@@ -1,0 +1,45 @@
+@yattWorkItemsApi_HostAddress = http://localhost:5154/api/workitems
+
+GET {{yattWorkItemsApi_HostAddress}}
+Accept: application/json
+
+###
+POST {{yattWorkItemsApi_HostAddress}}
+Content-Type: application/json
+
+{
+  "id": "111163BE-1111-4579-89E1-A057631B0A9D",
+  "title": "work item 1",
+  "details": "some dets"
+}
+
+###
+GET {{yattWorkItemsApi_HostAddress}}/111163BE-1111-4579-89E1-A057631B0A9D
+Accept: application/json
+
+###
+POST {{yattWorkItemsApi_HostAddress}}
+Content-Type: application/json
+
+{
+  "id": "333363BE-3333-4579-89E1-A057631B0A93",
+  "title": "work item 2"
+}
+
+###
+GET {{yattWorkItemsApi_HostAddress}}/333363BE-3333-4579-89E1-A057631B0A93
+Accept: application/json
+
+###
+PUT {{yattWorkItemsApi_HostAddress}}/333363BE-3333-4579-89E1-A057631B0A93
+Content-Type: application/json
+
+{
+  "id": "333363BE-3333-4579-89E1-A057631B0A93",
+  "title": "work item 2 ver 2",
+  "details": "some details"
+}
+
+###
+DELETE {{yattWorkItemsApi_HostAddress}}/333363BE-3333-4579-89E1-A057631B0A93
+Accept: application/json

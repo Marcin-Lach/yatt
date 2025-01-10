@@ -1,4 +1,4 @@
-﻿namespace yatt.Tasks.Api.Models;
+﻿namespace yatt.WorkItems.Api.Models;
 
 public record WorkItem
 {

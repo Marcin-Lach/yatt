@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{C6B58978-1EC6-407E-A17E-D3BADD4566C6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{1FEBE8DC-2897-49DC-8302-738EC66F598C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkItems", "WorkItems", "{1FEBE8DC-2897-49DC-8302-738EC66F598C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.Tasks.Api", "Modules\Tasks\yatt.Tasks.Api\yatt.Tasks.Api.csproj", "{49A97806-79EA-4B19-9EA7-87E286751F1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.WorkItems.Api", "Modules\WorkItems\yatt.WorkItems.Api\yatt.WorkItems.Api.csproj", "{49A97806-79EA-4B19-9EA7-87E286751F1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.Tasks.Domain", "Modules\Tasks\yatt.Tasks.Domain\yatt.Tasks.Domain.csproj", "{CFFD0B44-0417-4189-9594-9A866B39BFE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.WorkItems.Domain", "Modules\WorkItems\yatt.WorkItems.Domain\yatt.WorkItems.Domain.csproj", "{CFFD0B44-0417-4189-9594-9A866B39BFE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using yatt.Tasks.Api.Models;
+using yatt.WorkItems.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,26 +22,26 @@ var workItems = new Dictionary<Guid, WorkItem>();
 
 // TODO: improve OpenApi generated for those endpoints (use TypedResults and fluent api methods to enhance OpenApi spec)
 // TODO: maybe use Vertical Slicing to manage the features
-app.MapGet("/api/tasks", 
+app.MapGet("/api/workitems", 
     () => Results.Ok(workItems));
 
-app.MapGet("/api/tasks/{id:guid}", 
+app.MapGet("/api/workitems/{id:guid}", 
     ([FromRoute] Guid id)
         => workItems.TryGetValue(id, out var workItem) ? 
             Results.Ok((object?)workItem) : 
             Results.NotFound());
 
-app.MapPost("/api/tasks", ([FromBody] WorkItem workItem) =>
+app.MapPost("/api/workitems", ([FromBody] WorkItem workItem) =>
 {
     if (workItems.TryAdd(workItem.Id, workItem))
     {
-        return Results.Created($"/api/tasks/{workItem.Id}", workItem);
+        return Results.Created($"/api/workitems/{workItem.Id}", workItem);
     }
 
     return Results.Conflict();
 });
 
-app.MapPut("/api/tasks/{id:guid}", ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
+app.MapPut("/api/workitems/{id:guid}", ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
 {
     if(workItems.ContainsKey(id))
     {
@@ -52,7 +52,7 @@ app.MapPut("/api/tasks/{id:guid}", ([FromRoute] Guid id, [FromBody] WorkItem wor
     return Results.NotFound();
 });
 
-app.MapDelete("/api/tasks/{id:guid}", ([FromRoute] Guid id) =>
+app.MapDelete("/api/workitems/{id:guid}", ([FromRoute] Guid id) =>
 {
     workItems.Remove(id);
     return Results.NoContent();

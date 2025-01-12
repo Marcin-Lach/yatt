@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using yatt.WorkItems.Api.Models;
 
@@ -20,42 +21,57 @@ app.MapGet("/", () => "Hello Work Items!")
 // TODO: replace in-memory collection with proper DbContext/Repository
 var workItems = new Dictionary<Guid, WorkItem>();
 
-// TODO: improve OpenApi generated for those endpoints (use TypedResults and fluent api methods to enhance OpenApi spec)
+
+var workItemsEndpoints = app
+    .MapGroup("/api/workitems")
+    .WithTags("WorkItems");
+
 // TODO: maybe use Vertical Slicing to manage the features
-app.MapGet("/api/workitems", 
-    () => Results.Ok(workItems.Select(x => x.Value).ToList()));
+workItemsEndpoints
+    .MapGet("/",
+        Ok<List<WorkItem>> () => TypedResults.Ok(workItems.Select(x => x.Value).ToList()))
+    .WithName("getAllWorkItems")
+    .WithDescription("Get full list of work items");
 
-app.MapGet("/api/workitems/{id:guid}", 
-    ([FromRoute] Guid id)
-        => workItems.TryGetValue(id, out var workItem) ? 
-            Results.Ok((object?)workItem) : 
-            Results.NotFound());
+workItemsEndpoints
+    .MapGet("/{id:guid}",
+        Results<Ok<WorkItem>, NotFound> ([FromRoute] Guid id)
+            => workItems.TryGetValue(id, out var workItem) ? TypedResults.Ok(workItem) : TypedResults.NotFound())
+    .WithName("getWorkItemById")
+    .WithDescription("Get a single work item or not found");
 
-app.MapPost("/api/workitems", ([FromBody] WorkItem workItem) =>
-{
-    if (workItems.TryAdd(workItem.Id, workItem))
+workItemsEndpoints
+    .MapPost("/", Results<Created<WorkItem>, Conflict> ([FromBody] WorkItem workItem) =>
     {
-        return Results.Created($"/api/workitems/{workItem.Id}", workItem);
-    }
+        if (workItems.TryAdd(workItem.Id, workItem))
+            return TypedResults.Created($"/api/workitems/{workItem.Id}", workItem);
 
-    return Results.Conflict();
-});
+        return TypedResults.Conflict();
+    })
+    .WithName("addWorkItem")
+    .WithDescription("Add new work items. If work item already exists, Conflict status code is returned");
 
-app.MapPut("/api/workitems/{id:guid}", ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
-{
-    if(workItems.ContainsKey(id))
+workItemsEndpoints
+    .MapPut("/{id:guid}", Results<NoContent, NotFound> ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
     {
-        workItems[id] = workItem;
-        return Results.NoContent();
-    }
-    
-    return Results.NotFound();
-});
+        if (workItems.ContainsKey(id))
+        {
+            workItems[id] = workItem;
+            return TypedResults.NoContent();
+        }
 
-app.MapDelete("/api/workitems/{id:guid}", ([FromRoute] Guid id) =>
-{
-    workItems.Remove(id);
-    return Results.NoContent();
-});
+        return TypedResults.NotFound();
+    })
+    .WithName("updateWorkItem")
+    .WithDescription("Update all properties of a work item");
+
+workItemsEndpoints
+    .MapDelete("/{id:guid}", NoContent ([FromRoute] Guid id) =>
+    {
+        workItems.Remove(id);
+        return TypedResults.NoContent();
+    })
+    .WithName("removeWorkItem")
+    .WithDescription("Remove work item");
 
 app.Run();

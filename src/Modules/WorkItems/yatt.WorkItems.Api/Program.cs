@@ -21,42 +21,57 @@ app.MapGet("/", () => "Hello Work Items!")
 // TODO: replace in-memory collection with proper DbContext/Repository
 var workItems = new Dictionary<Guid, WorkItem>();
 
-// TODO: improve OpenApi generated for those endpoints (use TypedResults and fluent api methods to enhance OpenApi spec)
+
+var workItemsEndpoints = app
+    .MapGroup("/api/workitems")
+    .WithTags("WorkItems");
+
 // TODO: maybe use Vertical Slicing to manage the features
-app.MapGet("/api/workitems", 
-    Ok<List<WorkItem>>() => TypedResults.Ok(workItems.Select(x => x.Value).ToList()));
+workItemsEndpoints
+    .MapGet("/",
+        Ok<List<WorkItem>> () => TypedResults.Ok(workItems.Select(x => x.Value).ToList()))
+    .WithName("Get work items")
+    .WithDescription("Get full list of work items");
 
-app.MapGet("/api/workitems/{id:guid}", 
-    Results<Ok<WorkItem>, NotFound>([FromRoute] Guid id)
-        => workItems.TryGetValue(id, out var workItem) ? 
-            TypedResults.Ok(workItem) : 
-            TypedResults.NotFound());
+workItemsEndpoints
+    .MapGet("/{id:guid}",
+        Results<Ok<WorkItem>, NotFound> ([FromRoute] Guid id)
+            => workItems.TryGetValue(id, out var workItem) ? TypedResults.Ok(workItem) : TypedResults.NotFound())
+    .WithName("Get work item by identifier")
+    .WithDescription("Get a single work item or not found");
 
-app.MapPost("/api/workitems", Results<Created<WorkItem>, Conflict>([FromBody] WorkItem workItem) =>
-{
-    if (workItems.TryAdd(workItem.Id, workItem))
+workItemsEndpoints
+    .MapPost("/", Results<Created<WorkItem>, Conflict> ([FromBody] WorkItem workItem) =>
     {
-        return TypedResults.Created($"/api/workitems/{workItem.Id}", workItem);
-    }
+        if (workItems.TryAdd(workItem.Id, workItem))
+            return TypedResults.Created($"/api/workitems/{workItem.Id}", workItem);
 
-    return TypedResults.Conflict();
-});
+        return TypedResults.Conflict();
+    })
+    .WithName("Add work item")
+    .WithDescription("Add new work items. If work item already exists, Conflict status code is returned");
 
-app.MapPut("/api/workitems/{id:guid}", Results<NoContent, NotFound> ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
-{
-    if(workItems.ContainsKey(id))
+workItemsEndpoints
+    .MapPut("/{id:guid}", Results<NoContent, NotFound> ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
     {
-        workItems[id] = workItem;
+        if (workItems.ContainsKey(id))
+        {
+            workItems[id] = workItem;
+            return TypedResults.NoContent();
+        }
+
+        return TypedResults.NotFound();
+    })
+    .WithName("Update work item")
+    .WithDescription("Update all properties of a work item");
+
+workItemsEndpoints
+    .MapDelete("/{id:guid}", NoContent ([FromRoute] Guid id) =>
+    {
+        workItems.Remove(id);
         return TypedResults.NoContent();
-    }
-    
-    return TypedResults.NotFound();
-});
-
-app.MapDelete("/api/workitems/{id:guid}", NoContent ([FromRoute] Guid id) =>
-{
-    workItems.Remove(id);
-    return TypedResults.NoContent();
-});
+    })
+    .WithName("Remove work item")
+    .WithDescription("Remove work item");
 
 app.Run();

@@ -28,8 +28,10 @@
     "/api/workitems": {
       "get": {
         "tags": [
-          "yatt.WorkItems.Api"
+          "WorkItems"
         ],
+        "description": "Get full list of work items",
+        "operationId": "Get work items",
         "responses": {
           "200": {
             "description": "OK",
@@ -48,8 +50,10 @@
       },
       "post": {
         "tags": [
-          "yatt.WorkItems.Api"
+          "WorkItems"
         ],
+        "description": "Add new work items. If work item already exists, Conflict status code is returned",
+        "operationId": "Add work item",
         "requestBody": {
           "content": {
             "application/json": {
@@ -80,8 +84,10 @@
     "/api/workitems/{id}": {
       "get": {
         "tags": [
-          "yatt.WorkItems.Api"
+          "WorkItems"
         ],
+        "description": "Get a single work item or not found",
+        "operationId": "Get work item by identifier",
         "parameters": [
           {
             "name": "id",
@@ -111,8 +117,10 @@
       },
       "put": {
         "tags": [
-          "yatt.WorkItems.Api"
+          "WorkItems"
         ],
+        "description": "Update all properties of a work item",
+        "operationId": "Update work item",
         "parameters": [
           {
             "name": "id",
@@ -145,8 +153,10 @@
       },
       "delete": {
         "tags": [
-          "yatt.WorkItems.Api"
+          "WorkItems"
         ],
+        "description": "Remove work item",
+        "operationId": "Remove work item",
         "parameters": [
           {
             "name": "id",
@@ -170,19 +180,23 @@
     "schemas": {
       "WorkItem": {
         "required": [
+          "id",
           "title"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
+            "description": "Identifier of the work item",
             "format": "uuid"
           },
           "title": {
-            "type": "string"
+            "type": "string",
+            "description": "Brief description of the work item"
           },
           "details": {
             "type": "string",
+            "description": "Detailed description of the work item",
             "nullable": true
           }
         }
@@ -192,6 +206,9 @@
   "tags": [
     {
       "name": "yatt.WorkItems.Api"
+    },
+    {
+      "name": "WorkItems"
     }
   ]
 }

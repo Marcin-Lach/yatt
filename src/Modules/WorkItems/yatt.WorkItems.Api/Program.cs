@@ -30,14 +30,14 @@ var workItemsEndpoints = app
 workItemsEndpoints
     .MapGet("/",
         Ok<List<WorkItem>> () => TypedResults.Ok(workItems.Select(x => x.Value).ToList()))
-    .WithName("Get work items")
+    .WithName("getAllWorkItems")
     .WithDescription("Get full list of work items");
 
 workItemsEndpoints
     .MapGet("/{id:guid}",
         Results<Ok<WorkItem>, NotFound> ([FromRoute] Guid id)
             => workItems.TryGetValue(id, out var workItem) ? TypedResults.Ok(workItem) : TypedResults.NotFound())
-    .WithName("Get work item by identifier")
+    .WithName("getWorkItemById")
     .WithDescription("Get a single work item or not found");
 
 workItemsEndpoints
@@ -48,7 +48,7 @@ workItemsEndpoints
 
         return TypedResults.Conflict();
     })
-    .WithName("Add work item")
+    .WithName("addWorkItem")
     .WithDescription("Add new work items. If work item already exists, Conflict status code is returned");
 
 workItemsEndpoints
@@ -62,7 +62,7 @@ workItemsEndpoints
 
         return TypedResults.NotFound();
     })
-    .WithName("Update work item")
+    .WithName("updateWorkItem")
     .WithDescription("Update all properties of a work item");
 
 workItemsEndpoints
@@ -71,7 +71,7 @@ workItemsEndpoints
         workItems.Remove(id);
         return TypedResults.NoContent();
     })
-    .WithName("Remove work item")
+    .WithName("removeWorkItem")
     .WithDescription("Remove work item");
 
 app.Run();

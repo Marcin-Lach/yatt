@@ -31,7 +31,7 @@
           "WorkItems"
         ],
         "description": "Get full list of work items",
-        "operationId": "Get work items",
+        "operationId": "getAllWorkItems",
         "responses": {
           "200": {
             "description": "OK",
@@ -53,7 +53,7 @@
           "WorkItems"
         ],
         "description": "Add new work items. If work item already exists, Conflict status code is returned",
-        "operationId": "Add work item",
+        "operationId": "addWorkItem",
         "requestBody": {
           "content": {
             "application/json": {
@@ -87,7 +87,7 @@
           "WorkItems"
         ],
         "description": "Get a single work item or not found",
-        "operationId": "Get work item by identifier",
+        "operationId": "getWorkItemById",
         "parameters": [
           {
             "name": "id",
@@ -120,7 +120,7 @@
           "WorkItems"
         ],
         "description": "Update all properties of a work item",
-        "operationId": "Update work item",
+        "operationId": "updateWorkItem",
         "parameters": [
           {
             "name": "id",
@@ -156,7 +156,7 @@
           "WorkItems"
         ],
         "description": "Remove work item",
-        "operationId": "Remove work item",
+        "operationId": "removeWorkItem",
         "parameters": [
           {
             "name": "id",

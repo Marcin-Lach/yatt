@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using yatt.WorkItems.Api.Models;
 
@@ -23,39 +24,39 @@ var workItems = new Dictionary<Guid, WorkItem>();
 // TODO: improve OpenApi generated for those endpoints (use TypedResults and fluent api methods to enhance OpenApi spec)
 // TODO: maybe use Vertical Slicing to manage the features
 app.MapGet("/api/workitems", 
-    () => Results.Ok(workItems.Select(x => x.Value).ToList()));
+    Ok<List<WorkItem>>() => TypedResults.Ok(workItems.Select(x => x.Value).ToList()));
 
 app.MapGet("/api/workitems/{id:guid}", 
-    ([FromRoute] Guid id)
+    Results<Ok<WorkItem>, NotFound>([FromRoute] Guid id)
         => workItems.TryGetValue(id, out var workItem) ? 
-            Results.Ok((object?)workItem) : 
-            Results.NotFound());
+            TypedResults.Ok(workItem) : 
+            TypedResults.NotFound());
 
-app.MapPost("/api/workitems", ([FromBody] WorkItem workItem) =>
+app.MapPost("/api/workitems", Results<Created<WorkItem>, Conflict>([FromBody] WorkItem workItem) =>
 {
     if (workItems.TryAdd(workItem.Id, workItem))
     {
-        return Results.Created($"/api/workitems/{workItem.Id}", workItem);
+        return TypedResults.Created($"/api/workitems/{workItem.Id}", workItem);
     }
 
-    return Results.Conflict();
+    return TypedResults.Conflict();
 });
 
-app.MapPut("/api/workitems/{id:guid}", ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
+app.MapPut("/api/workitems/{id:guid}", Results<NoContent, NotFound> ([FromRoute] Guid id, [FromBody] WorkItem workItem) =>
 {
     if(workItems.ContainsKey(id))
     {
         workItems[id] = workItem;
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
     
-    return Results.NotFound();
+    return TypedResults.NotFound();
 });
 
-app.MapDelete("/api/workitems/{id:guid}", ([FromRoute] Guid id) =>
+app.MapDelete("/api/workitems/{id:guid}", NoContent ([FromRoute] Guid id) =>
 {
     workItems.Remove(id);
-    return Results.NoContent();
+    return TypedResults.NoContent();
 });
 
 app.Run();

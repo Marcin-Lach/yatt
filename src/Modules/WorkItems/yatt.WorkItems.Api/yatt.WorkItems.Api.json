@@ -5,26 +5,6 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/": {
-      "get": {
-        "tags": [
-          "yatt.WorkItems.Api"
-        ],
-        "operationId": "Index",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/workitems": {
       "get": {
         "tags": [
@@ -40,7 +20,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/WorkItem"
+                    "$ref": "#/components/schemas/WorkItemRequestModel"
                   }
                 }
               }
@@ -58,7 +38,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkItem"
+                "$ref": "#/components/schemas/WorkItemRequestModel"
               }
             }
           },
@@ -70,7 +50,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkItem"
+                  "$ref": "#/components/schemas/WorkItemRequestModel"
                 }
               }
             }
@@ -105,7 +85,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkItem"
+                  "$ref": "#/components/schemas/WorkItemRequestModel"
                 }
               }
             }
@@ -136,7 +116,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkItem"
+                "$ref": "#/components/schemas/WorkItemRequestModel"
               }
             }
           },
@@ -178,7 +158,7 @@
   },
   "components": {
     "schemas": {
-      "WorkItem": {
+      "WorkItemRequestModel": {
         "required": [
           "id",
           "title"
@@ -204,9 +184,6 @@
     }
   },
   "tags": [
-    {
-      "name": "yatt.WorkItems.Api"
-    },
     {
       "name": "WorkItems"
     }

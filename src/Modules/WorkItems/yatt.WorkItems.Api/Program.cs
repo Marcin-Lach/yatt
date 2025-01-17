@@ -38,10 +38,10 @@ var workItemsEndpoints = app
 // TODO: maybe use Vertical Slicing to manage the features
 workItemsEndpoints
     .MapGet("/",
-        async Task<Ok<List<WorkItemRequestModel>>> (IWorkItemRepository repository)
+        async Task<Ok<List<GetWorkItemResponseModel>>> (IWorkItemRepository repository)
             => TypedResults.Ok(
                 (await repository.GetAllAsync())
-                .Select(x => x.ToRequestModel())
+                .Select(x => x.ToResponseModel())
                 .ToList())
     )
     .WithName("getAllWorkItems")
@@ -49,7 +49,7 @@ workItemsEndpoints
 
 workItemsEndpoints
     .MapGet("/{id:guid}",
-        async Task<Results<Ok<WorkItemRequestModel>, NotFound>> ([FromRoute] Guid id, IWorkItemRepository repository)
+        async Task<Results<Ok<GetWorkItemResponseModel>, NotFound>> ([FromRoute] Guid id, IWorkItemRepository repository)
             =>
         {
             var workItem = await repository.GetByIdAsync(id);
@@ -58,20 +58,21 @@ workItemsEndpoints
                 return TypedResults.NotFound();
             }
 
-            return TypedResults.Ok(workItem.ToRequestModel());
+            return TypedResults.Ok(workItem.ToResponseModel());
         })
     .WithName("getWorkItemById")
     .WithDescription("Get a single work item or not found");
 
 workItemsEndpoints
     .MapPost("/",
-        async Task<Results<Created<WorkItemRequestModel>, Conflict>> ([FromBody] WorkItemRequestModel workItem,
+        async Task<Results<Created<GetWorkItemResponseModel>, Conflict>> ([FromBody] AddWorkItemRequestModel workItem,
                 IWorkItemRepository repository)
             =>
         {
-            if (await repository.TryAddAsync(workItem.ToWorkItem()))
+            var wi = workItem.ToWorkItem();
+            if (await repository.TryAddAsync(wi))
             {
-                return TypedResults.Created($"/api/workitems/{workItem.Id}", workItem);
+                return TypedResults.Created($"/api/workitems/{workItem.Id}", wi.ToResponseModel());
             }
 
             return TypedResults.Conflict();
@@ -81,7 +82,7 @@ workItemsEndpoints
 
 workItemsEndpoints
     .MapPut("/{id:guid}",
-        async Task<Results<NoContent, NotFound>> ([FromRoute] Guid id, [FromBody] WorkItemRequestModel workItem,
+        async Task<Results<NoContent, NotFound>> ([FromRoute] Guid id, [FromBody] UpdateWorkItemRequestModel workItem,
                 IWorkItemRepository repository)
             =>
         {

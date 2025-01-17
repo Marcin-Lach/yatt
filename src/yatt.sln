@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.WorkItems.Api", "Modul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.WorkItems.Domain", "Modules\WorkItems\yatt.WorkItems.Domain\yatt.WorkItems.Domain.csproj", "{CFFD0B44-0417-4189-9594-9A866B39BFE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yatt.WorkItems.Domain.Tests", "Modules\WorkItems\yatt.WorkItems.Domain.Tests\yatt.WorkItems.Domain.Tests.csproj", "{6DFD2C7E-9876-4096-A21C-8BCE3F27E7A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +30,15 @@ Global
 		{CFFD0B44-0417-4189-9594-9A866B39BFE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFFD0B44-0417-4189-9594-9A866B39BFE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFFD0B44-0417-4189-9594-9A866B39BFE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DFD2C7E-9876-4096-A21C-8BCE3F27E7A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFD2C7E-9876-4096-A21C-8BCE3F27E7A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DFD2C7E-9876-4096-A21C-8BCE3F27E7A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DFD2C7E-9876-4096-A21C-8BCE3F27E7A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1FEBE8DC-2897-49DC-8302-738EC66F598C} = {C6B58978-1EC6-407E-A17E-D3BADD4566C6}
 		{49A97806-79EA-4B19-9EA7-87E286751F1F} = {1FEBE8DC-2897-49DC-8302-738EC66F598C}
 		{CFFD0B44-0417-4189-9594-9A866B39BFE2} = {1FEBE8DC-2897-49DC-8302-738EC66F598C}
+		{6DFD2C7E-9876-4096-A21C-8BCE3F27E7A5} = {1FEBE8DC-2897-49DC-8302-738EC66F598C}
 	EndGlobalSection
 EndGlobal

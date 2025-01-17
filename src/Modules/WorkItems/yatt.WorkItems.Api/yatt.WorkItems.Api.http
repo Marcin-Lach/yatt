@@ -18,6 +18,15 @@ GET {{yattWorkItemsApi_HostAddress}}/111163BE-1111-4579-89E1-A057631B0A9D
 Accept: application/json
 
 ###
+POST {{yattWorkItemsApi_HostAddress}}/111163BE-1111-4579-89E1-A057631B0A9D/complete
+Content-Type: application/json
+
+###
+
+POST {{yattWorkItemsApi_HostAddress}}/111163BE-1111-4579-89E1-A057631B0A9D/incomplete
+Content-Type: application/json
+
+###
 POST {{yattWorkItemsApi_HostAddress}}
 Content-Type: application/json
 

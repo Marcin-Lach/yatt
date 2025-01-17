@@ -20,7 +20,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/WorkItemRequestModel"
+                    "$ref": "#/components/schemas/GetWorkItemResponseModel"
                   }
                 }
               }
@@ -38,7 +38,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkItemRequestModel"
+                "$ref": "#/components/schemas/AddWorkItemRequestModel"
               }
             }
           },
@@ -50,7 +50,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkItemRequestModel"
+                  "$ref": "#/components/schemas/GetWorkItemResponseModel"
                 }
               }
             }
@@ -85,7 +85,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkItemRequestModel"
+                  "$ref": "#/components/schemas/GetWorkItemResponseModel"
                 }
               }
             }
@@ -116,7 +116,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkItemRequestModel"
+                "$ref": "#/components/schemas/UpdateWorkItemRequestModel"
               }
             }
           },
@@ -154,11 +154,113 @@
           }
         }
       }
+    },
+    "/api/workitems/{id}/complete": {
+      "post": {
+        "tags": [
+          "WorkItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/workitems/{id}/incomplete": {
+      "post": {
+        "tags": [
+          "WorkItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "WorkItemRequestModel": {
+      "AddWorkItemRequestModel": {
+        "required": [
+          "id",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the work item",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "description": "Brief description of the work item"
+          },
+          "details": {
+            "type": "string",
+            "description": "Detailed description of the work item",
+            "nullable": true
+          }
+        }
+      },
+      "GetWorkItemResponseModel": {
+        "required": [
+          "id",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifier of the work item",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "description": "Brief description of the work item"
+          },
+          "details": {
+            "type": "string",
+            "description": "Detailed description of the work item",
+            "nullable": true
+          },
+          "isCompleted": {
+            "type": "boolean",
+            "description": "Whether the work item is completed"
+          }
+        }
+      },
+      "UpdateWorkItemRequestModel": {
         "required": [
           "id",
           "title"

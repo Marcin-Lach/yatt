@@ -154,6 +154,58 @@
           }
         }
       }
+    },
+    "/api/workitems/{id}/complete": {
+      "post": {
+        "tags": [
+          "WorkItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/workitems/{id}/incomplete": {
+      "post": {
+        "tags": [
+          "WorkItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
   },
   "components": {

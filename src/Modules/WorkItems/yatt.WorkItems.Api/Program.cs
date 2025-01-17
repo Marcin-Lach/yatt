@@ -106,4 +106,33 @@ workItemsEndpoints
     .WithName("removeWorkItem")
     .WithDescription("Remove work item");
 
+workItemsEndpoints
+    .MapPost("/{id:guid}/complete",
+        async Task<Results<Ok, NotFound>> ([FromRoute] Guid id, IWorkItemRepository repository) =>
+        {
+            var workItem = await repository.GetByIdAsync(id);
+            if (workItem is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            workItem.MarkAsComplete();
+            return TypedResults.Ok();
+        });
+
+
+workItemsEndpoints
+    .MapPost("/{id:guid}/incomplete",
+        async Task<Results<Ok, NotFound>> ([FromRoute] Guid id, IWorkItemRepository repository) =>
+        {
+            var workItem = await repository.GetByIdAsync(id);
+            if (workItem is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            workItem.MarkAsIncomplete();
+            return TypedResults.Ok();
+        });
+
 app.Run();
